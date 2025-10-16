@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  patchmoe-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: patchmoe-development
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      # Mount project directory for development
+      - .:/workspace
+      # Mount data directories
+      - ./data:/workspace/data
+      - ./outputs:/workspace/outputs
+      - ./medical_datasets:/workspace/medical_datasets
+      - ./real_medical_datasets:/workspace/real_medical_datasets
+      - ./real_medical_datasets_kaggle:/workspace/real_medical_datasets_kaggle
+      # Mount Kaggle credentials
+      - ~/.kaggle:/root/.kaggle:ro
+    ports:
+      - "8888:8888"  # Jupyter
+      - "6006:6006"  # TensorBoard
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    command: /bin/bash
+
+  # Optional: Jupyter service
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: patchmoe-jupyter
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - .:/workspace
+      - ./data:/workspace/data
+      - ./outputs:/workspace/outputs
+      - ~/.kaggle:/root/.kaggle:ro
+    ports:
+      - "8889:8888"  # Jupyter on different port
+    working_dir: /workspace
+    command: >
+      bash -c "pip install jupyter jupyterlab &&
+               jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''"
+
+  # Optional: TensorBoard service
+  tensorboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: patchmoe-tensorboard
+    volumes:
+      - ./outputs:/workspace/outputs
+    ports:
+      - "6007:6006"
+    working_dir: /workspace
+    command: tensorboard --logdir=outputs --host=0.0.0.0 --port=6006

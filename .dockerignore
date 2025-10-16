@@ -1,0 +1,90 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Large data files (will be mounted as volumes)
+real_medical_datasets_kaggle/
+medical_datasets/
+test_data/
+outputs/
+*.zip
+*.tar.gz
+
+# Large images
+*.png
+*.jpg
+*.jpeg
+*.tiff
+*.bmp
+
+# Model checkpoints
+checkpoints/
+models/
+results/
+wandb/
+
+# Tutel build files
+tutel/build/
+tutel/dist/
+tutel/*.egg-info/
+tutel/tutel_custom_kernel.cpython-*.so
+
+# Documentation
+*.md
+!README.md
